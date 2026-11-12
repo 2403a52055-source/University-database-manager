@@ -1,0 +1,146 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Singleton Database Manager</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f4f7fb;
+}
+
+button {
+    padding: 12px;
+    margin: 5px;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#output {
+    margin-top: 15px;
+    padding: 15px;
+    background: white;
+    border: 1px solid #ccc;
+    min-height: 100px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>University Database Manager</h2>
+
+<p>All modules use one shared database manager.</p>
+
+<button onclick="studentModule()">
+Student Module
+</button>
+
+<button onclick="facultyModule()">
+Faculty Module
+</button>
+
+<button onclick="examModule()">
+Examination Module
+</button>
+
+<div id="output"></div>
+
+<script>
+
+// SINGLETON DATABASE MANAGER
+
+const DatabaseManager = (function () {
+
+    let instance;
+
+    function createInstance() {
+
+        return {
+
+            query: function (sql) {
+
+                display("Executing: " + sql);
+
+            }
+
+        };
+
+    }
+
+    return {
+
+        getInstance: function () {
+
+            if (!instance) {
+
+                instance = createInstance();
+
+                display("New Database Manager Created");
+
+            } else {
+
+                display("Existing Database Manager Reused");
+
+            }
+
+            return instance;
+
+        }
+
+    };
+
+})();
+
+// STUDENT MODULE
+
+function studentModule() {
+
+    const db = DatabaseManager.getInstance();
+
+    db.query("SELECT * FROM Students");
+
+}
+
+// FACULTY MODULE
+
+function facultyModule() {
+
+    const db = DatabaseManager.getInstance();
+
+    db.query("SELECT * FROM Faculty");
+
+}
+
+// EXAMINATION MODULE
+
+function examModule() {
+
+    const db = DatabaseManager.getInstance();
+
+    db.query("SELECT * FROM Exams");
+
+}
+
+// DISPLAY FUNCTION
+
+function display(message) {
+
+    const output = document.getElementById("output");
+
+    output.innerHTML += message + "<br>";
+
+}
+
+</script>
+
+</body>
+</html>
+```
